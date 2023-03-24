@@ -1,8 +1,12 @@
 import numpy as np
 
 
+def det2x2(input):
+    return input[0][0] * input[1][1] - input[1][0] * input[0][1]
+
+
 def is_singular2x2(input):
-    det = input[0][0] * input[1][1] - input[1][0] * input[0][1]
+    det = det2x2(input)
     ans = det == 0
     return det, ans
   
@@ -20,13 +24,9 @@ def is_singular3x3(input):
   
 def det_4x4(input):
     n = input.shape[0]
-    flag = 1
     sum = 0
     for i in range(n):
-        output = input[0, i] * det3x3(np.delete(np.delete(input, 0, 0), i, 1))
-        if flag % 2 == 0:
-            output = output * -1
-        flag += 1
+        output = ((-1) ** i) * input[0, i] * det3x3(np.delete(np.delete(input, 0, 0), i, 1))
         sum += output
     return sum
   
@@ -44,3 +44,21 @@ def eigenvalues2x2(input):
     return r
   
   
+def cramers_rule3x3(A, b):
+    n = A.shape[0]
+    k = A.shape[1]
+    ans = np.zeros((n, k))
+
+    #calcualte determinant
+    det = 1 / det3x3(A)
+
+    # calculate co-factor matrix
+    for i in range(n):
+        for j in range(k):
+            ans[i, j] = ((-1) ** (i + j)) * det2x2(np.delete(np.delete(A, i, 0), j, 1))
+    return (det * ans).T @ b
+
+    # compare answers
+    # return np.linalg.inv(A) @ b
+    
+    
