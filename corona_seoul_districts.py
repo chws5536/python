@@ -8,6 +8,7 @@ file_type = 'json'
 date = datetime.now().strftime('%Y.%m.%d') + '.00'
 
 # get the data
+# 서울특별시 공공데이터를 사용한 결과
 url = f'http://openapi.seoul.go.kr:8088/{key}/{file_type}/TbCorona19CountStatusJCG/1/5/{date}'
 r = requests.get(url).json()
 data = r['TbCorona19CountStatusJCG']['row']
