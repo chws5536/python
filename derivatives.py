@@ -61,5 +61,5 @@ def find_deriv(equation):
     return derivative
 
 
-z = 'x^(5+2)'
+z = 'x^(5/2)'
 print(find_deriv(z))
