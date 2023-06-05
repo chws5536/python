@@ -72,19 +72,25 @@ def eigenvalues2x2(A):
     return r
 
 
-def cramers_rule3x3(A, b):
-    n = A.shape[0]
-    k = A.shape[1]
-    ans = np.zeros((n, k))
+def cofactor_nxn(A):
+    n, k = A.shape[0], A.shape[1]
+    cofactor = np.zeros((n,k))
+    for i in range(0, n):
+        for j in range(0, k):
+            # print(((-1) ** (i+j)) * det_nxn(np.delete(np.delete(A, i, 0), j, 1)))
+            cofactor[i][j] = ((-1) ** (i + j)) * det_nxn(np.delete(np.delete(A, i, 0), j, 1))
+    return cofactor
 
-    # calcualte determinant
-    det = 1 / det3x3(A)
 
-    # calculate co-factor matrix
-    for i in range(n):
-        for j in range(k):
-            ans[i, j] = ((-1) ** (i + j)) * det2x2(np.delete(np.delete(A, i, 0), j, 1))
-    return (det * ans).T @ b
+def inverse_matrix(A):
+    det = det_nxn(A)
+    cofactor = cofactor_nxn(A)
+    ret = (1 / det) * cofactor.T
+    return ret
+
+
+def cramers_rule(A, b):
+    return inverse_matrix(A) @ b
 
 
 def is_positive_definite(A):
@@ -194,3 +200,5 @@ def is_negative_semidefinite(A):
         if A[k][k] > 0:
             return 0
     return 1
+
+
