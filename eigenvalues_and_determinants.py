@@ -89,10 +89,6 @@ def inverse_matrix(A):
     return ret
 
 
-def cramers_rule(A, b):
-    return inverse_matrix(A) @ b
-
-
 def is_positive_definite(A):
     n = A.shape[0]
     det = det_nxn(A)
