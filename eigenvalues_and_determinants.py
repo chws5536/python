@@ -89,6 +89,17 @@ def inverse_matrix(A):
     return ret
 
 
+def cramers_rule(A, b):
+    detA = det_nxn(A)
+    n, k = A.shape[0], A.shape[1]
+    ret = np.zeros((k,1))
+    for i in range(k):
+        A_sub = A.copy()
+        A_sub[:,i] = b
+        ret[i] = det_nxn(A_sub) / detA
+    return ret
+
+
 def is_positive_definite(A):
     n = A.shape[0]
     det = det_nxn(A)
